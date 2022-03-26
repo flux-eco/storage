@@ -30,7 +30,9 @@
     "php": ">=8.0",
     "ext-curl": "*",
     "ext-json": "*",
-    "ext-yaml": "*"
+    "ext-yaml": "*",
+    "laminas/laminas-code": ">=4.4",
+    "laminas/laminas-db": ">=2.12"
   },
   "require-dev": {
 
