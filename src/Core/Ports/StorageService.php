@@ -41,6 +41,9 @@ class StorageService
 
     final public function deleteStorage(string $tableName): void
     {
+        if ($this->storageExists($tableName) === false) {
+            return;
+        }
         $command = Application\Handlers\DeleteStorageCommand::new($tableName);
         Application\Handlers\DeleteStorageHandler::new($this->databaseClient)->handle($command);
     }
