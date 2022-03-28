@@ -1,6 +1,5 @@
 # flux-eco/storage
-This component supports the handling of mysql databases 
-the database schemas are described as json schemas.
+This component supports the handling of mysql databases with json based table schemas.
 
 The following client classes demonstrates the usage:
 - https://github.com/flux-eco/projection/blob/main/src/Adapters/Storage/ProjectionStorageClient.php
