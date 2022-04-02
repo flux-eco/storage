@@ -1,17 +1,12 @@
 {
   "name": "flux-eco/storage",
-  "description": "Component for flux-capacitor apps developed by fluxlabs ag",
-  "version": "0.0.1",
+  "description": "Handling mysql databases with json based table schemas",
+  "version": "0.0.2",
   "type": "flux-app",
   "keywords": [
-    "flux-ecosystem",
-    "flux-capacitor",
-    "fluxlabs ag",
-    "microservice",
-    "event sourcing",
-    "cqrs",
-    "json schema",
-    "asyncapi"
+    "flux-eco",
+    "storage",
+    "fluxlabs"
   ],
   "homepage": "https://fluxlabs.ch",
   "license": "GPL-3.0-only",
