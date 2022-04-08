@@ -1,8 +1,7 @@
 {
   "name": "flux-eco/storage",
   "description": "Handling mysql databases with json based table schemas",
-  "version": "0.0.2",
-  "type": "flux-app",
+  "version": "1.0.0",
   "keywords": [
     "flux-eco",
     "storage",
@@ -26,16 +25,28 @@
     "ext-curl": "*",
     "ext-json": "*",
     "ext-yaml": "*",
+    "flux-eco/dot-env": ">=0.0.1",
     "laminas/laminas-code": ">=4.4",
     "laminas/laminas-db": ">=2.12"
   },
   "require-dev": {
-
   },
   "autoload": {
+    "files": [
+      "fn/appendData.php",
+      "fn/countTotalRows.php",
+      "fn/createStorage.php",
+      "fn/deleteData.php",
+      "fn/deleteStorage.php",
+      "fn/getData.php",
+      "fn/storeData.php"
+    ],
     "psr-4": {
       "FluxEco\\Storage\\": [
         "src/"
+      ],
+      "fluxStorage\\": [
+        "fn/"
       ]
     }
   },

@@ -3,7 +3,7 @@
 
 namespace FluxEco\Storage\Adapters\MySqlDatabase;
 
-use FluxEco\Storage\Adapters\Configs\DatabaseConfig;
+use FluxEco\Storage\Adapters\Configs\Config;
 use FluxEco\Storage\Adapters\MySqlDatabase\Commands;
 use FluxEco\Storage\Adapters\MySqlDatabase\Factories\DdlColumnFactory;
 use FluxEco\Storage\Core\Application\Handlers;
@@ -41,6 +41,7 @@ class MysqlDatabaseClient implements Ports\Database\DatabaseClient
     ): self
     {
         $databaseName = $databaseConfig->getDatabase();
+
         if (empty(static::$instances[$databaseName]) === true || empty(static::$instances[$databaseName][$tableName]) === true) {
             $dbAdapter = new Adapter($databaseConfig->toArray());
             $tableGateway = new TableGateway($tableName, $dbAdapter);

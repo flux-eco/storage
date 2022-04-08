@@ -15,12 +15,8 @@ class VarcharColumn implements Ports\Database\Models\Column
         $this->nullable = $nullable;
     }
 
-    /**
-     * @param Ports\Database\TableAsserters $tableAsserters
-     */
-    public static function new(string $name, array $tableAsserters, bool $nullable = false): self
+    public static function new(string $name, bool $nullable = false): self
     {
-        // $tableAsserters->assertColumnNameIsLowerThanMaxLength($name);
         return new self($name, $nullable);
     }
 
