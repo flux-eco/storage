@@ -59,11 +59,12 @@ class MysqlDatabaseClient implements Ports\Database\DatabaseClient
 
     final public function getData(Handlers\GetDataCommand $getDataCommand): array
     {
+        $sequenceOffSet = $getDataCommand->getSequenceOffSet();
         $limit = $getDataCommand->getLimit();
         $filter = $getDataCommand->getFilter();
         $orderby = $getDataCommand->getOrderBy();
 
-        $result = iterator_to_array($this->tableGateway->select(function (Select $select) use ($filter, $limit, $orderby) {
+        $result = iterator_to_array($this->tableGateway->select(function (Select $select) use ($filter, $sequenceOffSet, $limit, $orderby) {
 
             if (count($filter) > 0) {
                 foreach ($filter as $key => $value) {
@@ -73,6 +74,10 @@ class MysqlDatabaseClient implements Ports\Database\DatabaseClient
 
             if ($orderby !== null) {
                 $select->order($orderby);
+            }
+
+            if ($sequenceOffSet > 0) {
+                $select->offset($sequenceOffSet);
             }
 
             if ($limit > 0) {
