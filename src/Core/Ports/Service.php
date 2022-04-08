@@ -92,9 +92,9 @@ class Service
         $this->outbounds->getDatabaseClient()->deleteData($filter);
     }
 
-    public function getData(array $filter, int $limit = 0, ?string $orderBy = null) : array
+    public function getData(array $filter, int $sequenceOffSet = 0, int $limit = 0, ?string $orderBy = null) : array
     {
-        $command = Application\Handlers\GetDataCommand::new($filter, $limit, $orderBy);
+        $command = Application\Handlers\GetDataCommand::new($filter, $sequenceOffSet, $limit, $orderBy);
         return Application\Handlers\GetDataHandler::new($this->outbounds->getDatabaseClient())->handle($command);
     }
 

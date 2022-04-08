@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## [1.1.0]
+* added sequencing
+
 ## [1.0.0]
 * added functional usage
 

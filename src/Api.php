@@ -46,9 +46,9 @@ class Api
         $this->service->deleteStorage();
     }
 
-    final public function getData(array $filter, int $limit = 0, ?string $orderBy = null) : array
+    final public function getData(array $filter, int $sequenceOffSet = 0, int $limit = 0, ?string $orderBy = null) : array
     {
-        return $this->service->getData($filter, $limit = 0, $orderBy);
+        return $this->service->getData($filter, $sequenceOffSet, $limit, $orderBy);
     }
 
     final public function countTotalRows(array $filter, $limit = 0) : int

@@ -77,9 +77,10 @@ echo "Data stored: ".PHP_EOL.print_r($data, true).PHP_EOL;
 
 //get data
 $filter = ['projectionId' => 123];
+$sequence = 0;
 $limit = 0;
 $orderBy = 'firstname';
-$data = fluxStorage\getData($tableName, $schema, 'PROJECTION_', $filter, $limit, $orderBy);
+$data = fluxStorage\getData($tableName, $schema, 'PROJECTION_', $filter, $sequence, $limit, $orderBy);
 //
 
 echo "Get data: ".PHP_EOL.print_r($data, true).PHP_EOL;
@@ -97,7 +98,7 @@ echo "Filter ".print_r($filter, true).PHP_EOL;
 $totalRows = fluxStorage\countTotalRows($tableName, $schema, 'PROJECTION_', [], 0);
 //
 
-echo 'Total Rows: '.$totalRows;
+echo 'Total Rows: '.$totalRows.PHP_EOL;
 
 
 //delete Storage
