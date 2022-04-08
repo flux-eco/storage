@@ -2,7 +2,7 @@
 
 namespace FluxEco\Storage\Core\Domain\Models;
 
-use FluxEco\Storage\Core\{Domain\Asserters, Ports};
+use FluxEco\Storage\Core\{Ports};
 
 class IntegerColumn implements Ports\Database\Models\Column
 {
@@ -15,10 +15,7 @@ class IntegerColumn implements Ports\Database\Models\Column
         $this->nullable = $nullable;
     }
 
-    /**
-     * @param Ports\Database\TableAsserters $tableAsserters
-     */
-    public static function new(string $name, array $tableAsserters = [], bool $nullable = false): self
+    public static function new(string $name, bool $nullable = false): self
     {
         return new self($name, $nullable);
     }

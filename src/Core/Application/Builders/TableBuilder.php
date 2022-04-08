@@ -17,20 +17,18 @@ class TableBuilder implements Ports\Database\Builders\TableBuilder
 
     private function __construct(
         string                        $tableName,
-        Ports\Database\TableAsserters $tableAsserters,
         ColumnFactory                 $columnFactory
     )
     {
         $this->tableName = $tableName;
-        $this->tableAsserters = $tableAsserters;
         $this->columnFactory = $columnFactory;
     }
 
 
-    public static function new(string $tableName, Ports\Database\TableAsserters $asserters): self
+    public static function new(string $tableName): self
     {
-        $columnFactory = ColumnFactory::new($asserters);
-        return new self($tableName, $asserters, $columnFactory);
+        $columnFactory = ColumnFactory::new();
+        return new self($tableName, $columnFactory);
     }
 
     final public function addColumnFromSchema(string $name, array $jsonValueSchema): self

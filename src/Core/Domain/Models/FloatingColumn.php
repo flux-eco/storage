@@ -15,16 +15,8 @@ class FloatingColumn implements Ports\Database\Models\Column
         $this->nullable = $nullable;
     }
 
-    /**
-     * @param Ports\Database\TableAsserters[] $columnNameAsserters
-     */
-    public static function new(string $name, array $columnNameAsserters = [], bool $nullable = false): self
+    public static function new(string $name, bool $nullable = false): self
     {
-        if (count($columnNameAsserters) > 0) {
-            foreach ($columnNameAsserters as $columnNameAsserter) {
-                $columnNameAsserter->assert($name);
-            }
-        }
         return new self($name, $nullable);
     }
 

@@ -13,17 +13,9 @@ class BooleanColumn implements Ports\Database\Models\Column
         $this->name = $name;
     }
 
-    /**
-     * @param Ports\Database\TableAsserters[] $columnNameAsserters
-     */
-    public static function new(string $name, array $columnNameAsserters = [], bool $nullable = false): self
+    public static function new(string $name): self
     {
-        if (count($columnNameAsserters) > 0) {
-            foreach ($columnNameAsserters as $columnNameAsserter) {
-                $columnNameAsserter->assertColumnNameIsLowerThanMaxLength($name);
-            }
-        }
-        return new self($name, $nullable);
+        return new self($name);
     }
 
     public function getName(): string
