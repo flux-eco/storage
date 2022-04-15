@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## [1.1.1]
+* fix tablebuilder
+
 ## [1.1.0]
 * added sequencing
 

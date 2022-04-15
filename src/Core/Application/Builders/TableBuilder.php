@@ -12,7 +12,6 @@ class TableBuilder implements Ports\Database\Builders\TableBuilder
     /** @var string[] */
     private array $uniqueKey = [];
     private array $columns = [];
-    private Ports\Database\TableAsserters $tableAsserters;
     private ColumnFactory $columnFactory;
 
     private function __construct(
@@ -37,27 +36,27 @@ class TableBuilder implements Ports\Database\Builders\TableBuilder
         return $this;
     }
 
-    final public function addVarcharColumn(string $name): self
+    final public function addVarcharColumn(string $name, bool $nullable = false): self
     {
-        $this->columns[$name] = Models\VarcharColumn::new($name, $this->tableAsserters);
+        $this->columns[$name] = Models\VarcharColumn::new($name,$nullable);
         return $this;
     }
 
-    final  public function addTextColumn(string $name): self
+    final  public function addTextColumn(string $name, bool $nullable = false): self
     {
-        $this->columns[$name] = Models\TextColumn::new($name, $this->tableAsserters);
+        $this->columns[$name] = Models\TextColumn::new($name, $nullable);
         return $this;
     }
 
-    final public function addIntegerColumn(string $name): self
+    final public function addIntegerColumn(string $name, bool $nullable = false): self
     {
-        $this->columns[$name] = Models\IntegerColumn::new($name, $this->tableAsserters);
+        $this->columns[$name] = Models\IntegerColumn::new($name, $nullable);
         return $this;
     }
 
-    final public function addDataTimeColumnType(string $name): self
+    final public function addDataTimeColumnType(string $name, bool $nullable = false): self
     {
-        $this->columns[$name] = Models\DataTimeColumn::new($name, $this->tableAsserters);
+        $this->columns[$name] = Models\DataTimeColumn::new($name, $nullable);
         return $this;
     }
 
