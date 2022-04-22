@@ -1,7 +1,7 @@
 {
   "name": "flux-eco/storage",
   "description": "Handling mysql databases with json based table schemas",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "keywords": [
     "flux-eco",
     "storage",
@@ -27,7 +27,8 @@
     "ext-yaml": "*",
     "flux-eco/dot-env": ">=0.0.1",
     "laminas/laminas-code": ">=4.4",
-    "laminas/laminas-db": ">=2.12"
+    "laminas/laminas-db": ">=2.12",
+    "ext-pdo": "*"
   },
   "require-dev": {
   },
