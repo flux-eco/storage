@@ -13,19 +13,19 @@ use Laminas\Db\Sql\Ddl\{Column, Constraint, CreateTable, DropTable};
 use Laminas\Db\Sql\Select;
 use Laminas\Db\Sql\Sql;
 use Laminas\Db\TableGateway\TableGateway;
-
+use Swoole\Database\PDOConfig;
 
 class MysqlDatabaseClient implements Ports\Database\DatabaseClient
 {
     protected static array $instances = [];
 
-    private DatabaseConfig $databaseConfig;
+    private DatabaseConfig|PDOConfig $databaseConfig;
     private Adapter $dbAdapter;
     private Sql $sql;
     private TableGateway $tableGateway;
     private array $jsonSchema;
 
-    private function __construct(DatabaseConfig $databaseConfig, Adapter $dbAdapter, Sql $sql, TableGateway $tableGateway, array $jsonSchema)
+    private function __construct(DatabaseConfig|PDOConfig $databaseConfig, Adapter $dbAdapter, Sql $sql, TableGateway $tableGateway, array $jsonSchema)
     {
         $this->databaseConfig = $databaseConfig;
         $this->dbAdapter = $dbAdapter;
@@ -37,10 +37,10 @@ class MysqlDatabaseClient implements Ports\Database\DatabaseClient
     public static function new(
         string         $tableName,
         array          $jsonSchema,
-        DatabaseConfig $databaseConfig
+        DatabaseConfig|PDOConfig $databaseConfig
     ): self
     {
-        $databaseName = $databaseConfig->getDatabase();
+        $databaseName = $databaseConfig->getDbname();
 
         if (empty(static::$instances[$databaseName]) === true || empty(static::$instances[$databaseName][$tableName]) === true) {
             $dbAdapter = new Adapter($databaseConfig->toArray());
@@ -167,7 +167,7 @@ class MysqlDatabaseClient implements Ports\Database\DatabaseClient
 
     final public function storageExists(Handlers\StorageExistsCommand $storageExistsCommand): bool
     {
-        $dataBaseName = $this->databaseConfig->getDatabase();
+        $dataBaseName = $this->databaseConfig->getDbname();
         $tableName = $storageExistsCommand->getTableName();
         $dbAdapter = $this->dbAdapter;
 

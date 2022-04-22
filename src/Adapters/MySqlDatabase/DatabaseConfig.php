@@ -45,6 +45,11 @@ class DatabaseConfig implements Ports\Database\DatabaseConfig
         );
     }
 
+    final public function getDbName() : string
+    {
+        return $this->database;
+    }
+
     final public function getDatabase() : string
     {
         return $this->database;
