@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## [1.2.2]
+* fix bugs in database config
+
 ## [1.2.1]
 * removed use swoole PDOConfig OR mysql_pdo
 * fix bug hostname in database config 

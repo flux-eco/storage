@@ -40,7 +40,7 @@ class MysqlDatabaseClient implements Ports\Database\DatabaseClient
         DatabaseConfig $databaseConfig
     ): self
     {
-        $databaseName = $databaseConfig->getDbname();
+        $databaseName = $databaseConfig->getDatabase();
 
         if (empty(static::$instances[$databaseName]) === true || empty(static::$instances[$databaseName][$tableName]) === true) {
             $dbAdapter = new Adapter($databaseConfig->toArray());
@@ -167,7 +167,7 @@ class MysqlDatabaseClient implements Ports\Database\DatabaseClient
 
     final public function storageExists(Handlers\StorageExistsCommand $storageExistsCommand): bool
     {
-        $dataBaseName = $this->databaseConfig->getDbname();
+        $dataBaseName = $this->databaseConfig->getDatabase();
         $tableName = $storageExistsCommand->getTableName();
         $dbAdapter = $this->dbAdapter;
 

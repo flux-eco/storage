@@ -8,7 +8,7 @@ interface DatabaseConfig
 
     public function getDriver() : string;
 
-    public function getHostName() : string;
+    public function getHostname() : string;
 
     public function getPassword() : string;
 
