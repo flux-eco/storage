@@ -8,20 +8,20 @@ use FluxEco\Storage\Core\Ports;
 
 class DatabaseConfig implements Ports\Database\DatabaseConfig
 {
-    private string $host;
+    private string $hostname;
     private string $driver;
     private string $database;
     private string $password;
     private string $username;
 
     private function __construct(
-        string $host,
+        string $hostname,
         string $driver,
         string $database,
         string $username,
         string $password
     ) {
-        $this->host = $host;
+        $this->hostname = $hostname;
         $this->driver = $driver;
         $this->database = $database;
         $this->username = $username;
@@ -29,7 +29,7 @@ class DatabaseConfig implements Ports\Database\DatabaseConfig
     }
 
     public static function new(
-        string $host,
+        string $hostname,
         string $driver,
         string $database,
         string $username,
@@ -37,17 +37,12 @@ class DatabaseConfig implements Ports\Database\DatabaseConfig
     ) : self
     {
         return new self(
-            $host,
+            $hostname,
             $driver,
             $database,
             $username,
             $password
         );
-    }
-
-    final public function getDbName() : string
-    {
-        return $this->database;
     }
 
     final public function getDatabase() : string
@@ -60,9 +55,9 @@ class DatabaseConfig implements Ports\Database\DatabaseConfig
         return $this->driver;
     }
 
-    final public function getHost() : string
+    final public function getHostname() : string
     {
-        return $this->host;
+        return $this->hostname;
     }
 
     final public function getPassword() : string

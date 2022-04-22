@@ -19,13 +19,13 @@ class MysqlDatabaseClient implements Ports\Database\DatabaseClient
 {
     protected static array $instances = [];
 
-    private DatabaseConfig|PDOConfig $databaseConfig;
+    private DatabaseConfig $databaseConfig;
     private Adapter $dbAdapter;
     private Sql $sql;
     private TableGateway $tableGateway;
     private array $jsonSchema;
 
-    private function __construct(DatabaseConfig|PDOConfig $databaseConfig, Adapter $dbAdapter, Sql $sql, TableGateway $tableGateway, array $jsonSchema)
+    private function __construct(DatabaseConfig $databaseConfig, Adapter $dbAdapter, Sql $sql, TableGateway $tableGateway, array $jsonSchema)
     {
         $this->databaseConfig = $databaseConfig;
         $this->dbAdapter = $dbAdapter;
@@ -37,7 +37,7 @@ class MysqlDatabaseClient implements Ports\Database\DatabaseClient
     public static function new(
         string         $tableName,
         array          $jsonSchema,
-        DatabaseConfig|PDOConfig $databaseConfig
+        DatabaseConfig $databaseConfig
     ): self
     {
         $databaseName = $databaseConfig->getDbname();
