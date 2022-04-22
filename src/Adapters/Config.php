@@ -6,6 +6,7 @@ use FluxEco\Storage\Adapters\MySqlDatabase\DatabaseConfig;
 use FluxEco\Storage\Adapters;
 use FluxEco\Storage\Env;
 use FluxEco\Storage\Core;
+use Swoole\Database\PDOConfig;
 
 class Config implements Core\Ports\Config
 {
@@ -29,13 +30,30 @@ class Config implements Core\Ports\Config
     public static function newFromEnv(string $tableName, array $jsonSchema, string $envPrefix = '') : self
     {
         $apiEnv = Env::new($envPrefix);
-        $databaseConfig = Adapters\MySqlDatabase\DatabaseConfig::new(
-            $apiEnv->getHost(),
-            $apiEnv->getDriver(),
-            $apiEnv->getName(),
-            $apiEnv->getUser(),
-            $apiEnv->getPassword()
-        );
+
+        if(class_exists('PDOConfig')) {
+            $databaseConfig = (new PDOConfig())
+                ->withHost( $apiEnv->getHost())
+                ->withPort(3306)
+                // ->withUnixSocket('/tmp/mysql.sock')
+                ->withDbName($apiEnv->getName())
+                ->withCharset('utf8mb4')
+                ->withUsername($apiEnv->getUser())
+                ->withPassword($apiEnv->getPassword());
+        } else {
+            $databaseConfig = Adapters\MySqlDatabase\DatabaseConfig::new(
+                $apiEnv->getHost(),
+                $apiEnv->getDriver(),
+                $apiEnv->getName(),
+                $apiEnv->getUser(),
+                $apiEnv->getPassword()
+            );
+        }
+
+
+
+
+
 
         $databaseClient = Adapters\MySqlDatabase\MysqlDatabaseClient::new(
             $tableName,

@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## [1.2.0]
+* use swoole PDOConfig OR mysql_pdo
+
 ## [1.1.1]
 * fix tablebuilder
 
