@@ -14,6 +14,8 @@ class CreateStorageAdapter
     private array $uniqueKey = [];
     /** @var Column[] */
     private array $ddlColumns;
+    private array $indexes;
+
 
     /**
      * @param Column[] $ddlColumns
@@ -22,12 +24,15 @@ class CreateStorageAdapter
         string $tableName,
         ?string  $primaryKey = null,
         array $uniqueKey,
-        array  $ddlColumns)
+        array  $ddlColumns,
+        array $indexes
+    )
     {
         $this->tableName = $tableName;
         $this->primaryKey = $primaryKey;
         $this->uniqueKey = $uniqueKey;
         $this->ddlColumns = $ddlColumns;
+        $this->indexes = $indexes;
     }
 
     public static function fromApplicationCommmand(Application\Handlers\CreateStorageCommand $createStorageCommand, DdlColumnFactory $ddlColumnFactory): self
@@ -38,6 +43,7 @@ class CreateStorageAdapter
         $primaryKey = $storage->getPrimaryKey();
         $uniqueKey = $storage->getUniqueKey();
         $storageColumns = $storage->getColumns();
+        $indexes = $storage->getIndexes();
         $ddlColumns = [];
         foreach ($storageColumns as $storageColumn) {
             $ddlColumns[] = $ddlColumnFactory->createDdlColumnfromStorageColumn($storageColumn);
@@ -47,7 +53,9 @@ class CreateStorageAdapter
             $tableName,
             $primaryKey,
             $uniqueKey,
-            $ddlColumns);
+            $ddlColumns,
+            $indexes
+        );
     }
 
     public function hasUniqueKey(): bool
@@ -81,6 +89,13 @@ class CreateStorageAdapter
     {
         return $this->uniqueKey;
     }
+
+    public function getIndexes() : array
+    {
+        return $this->indexes;
+    }
+
+
 
 
 }

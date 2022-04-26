@@ -18,4 +18,7 @@ interface Table
      * @return Column[]
      */
     public function getColumns(): array;
+
+
+    public function getIndexes(): array;
 }

@@ -6,29 +6,33 @@ class Table implements \FluxEco\Storage\Core\Ports\Database\Table
 {
     private string $tableName;
     private ?string $primaryKey;
-    private array $uniqueKey = [];
-    private array $columns = [];
+    private array $uniqueKey;
+    private array $columns;
+    private array $indexes;
 
 
     private function __construct(
         string $tableName,
         array  $columns,
         ?string $primaryKey,
-        array  $uniqueKey = []
+        array  $uniqueKey,
+        array $indexes
     )
     {
         $this->tableName = $tableName;
         $this->columns = $columns;
         $this->primaryKey = $primaryKey;
         $this->uniqueKey = $uniqueKey;
+        $this->indexes = $indexes;
     }
 
 
     public static function new(
         string  $tableName,
         array   $columns,
-        ?string $primaryKey = null,
-        array   $uniqueKey
+        ?string $primaryKey,
+        array   $uniqueKey,
+        array $indexes
     ): self
     {
         self::asssertUniqueKeyColumnExists($uniqueKey, $columns);
@@ -40,7 +44,8 @@ class Table implements \FluxEco\Storage\Core\Ports\Database\Table
             $tableName,
             $columns,
             $primaryKey,
-            $uniqueKey
+            $uniqueKey,
+            $indexes
         );
     }
 
@@ -86,4 +91,9 @@ class Table implements \FluxEco\Storage\Core\Ports\Database\Table
     {
         return $this->columns;
     }
+
+    public function getIndexes(): array {
+        return $this->indexes;
+    }
+
 }

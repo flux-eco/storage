@@ -35,6 +35,8 @@ class DdlColumnFactory
                 return new Column\Integer($column->getName(), $column->isNullable());
             case Models\TextColumn::class:
                 return new Column\Text($column->getName(), 0, $column->isNullable());
+            case Models\BlobColumn::class:
+                return  new Column\Blob($column->getName(), 0, $column->isNullable());
             case Models\VarcharColumn::class:
                 return new Column\Varchar($column->getName(), 255, $column->isNullable());
         }

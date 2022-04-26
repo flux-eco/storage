@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## [1.3.0]
+* feature: filter, limit, fulltextsearch
+
 ## [1.2.2]
 * fix bugs in database config
 
