@@ -2,11 +2,9 @@
 
 namespace FluxEco\Storage\Adapters;
 
-use FluxEco\Storage\Adapters\MySqlDatabase\DatabaseConfig;
 use FluxEco\Storage\Adapters;
 use FluxEco\Storage\Env;
 use FluxEco\Storage\Core;
-use Swoole\Database\PDOConfig;
 
 class Config implements Core\Ports\Config
 {

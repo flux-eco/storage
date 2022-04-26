@@ -2,19 +2,19 @@
 
 namespace FluxEco\Storage\Core\Ports;
 
-use FluxEco\Storage\Core\{Application, Ports};
+use FluxEco\Storage\Core\{Application, Domain};
 
 class Service
 {
-    private Ports\Outbounds $outbounds;
+    private Outbounds $outbounds;
 
     private function __construct(
-        Ports\Outbounds $outbounds
+        Outbounds $outbounds
     ) {
         $this->outbounds = $outbounds;
     }
 
-    public static function new(Ports\Outbounds $outbounds) : self
+    public static function new(Outbounds $outbounds) : self
     {
         return new self(
             $outbounds
@@ -51,7 +51,7 @@ class Service
 
     private function buildStorageTable(
         ?string $primaryKey = null
-    ) : Ports\Database\Table {
+    ) : Database\Table {
         $tableName = $this->outbounds->getConfig()->getTableName();
         $jsonSchema = $this->outbounds->getConfig()->getJsonSchema();
 
@@ -61,6 +61,11 @@ class Service
 
         foreach ($jsonSchema['properties'] as $key => $propertySchema) {
             $dataStorageBuilder->addColumnFromSchema($key, $propertySchema);
+        }
+
+        if(array_key_exists('fulltextSearch', $jsonSchema)) {
+            $dataStorageBuilder->addBlobColumn('fulltextSearch', true);
+            $dataStorageBuilder->addIndexes(['fulltextSearch'], 'fulltextSearch');
         }
 
         if ($primaryKey !== null) {
@@ -92,9 +97,27 @@ class Service
         $this->outbounds->getDatabaseClient()->deleteData($filter);
     }
 
-    public function getData(array $filter, int $sequenceOffSet = 0, int $limit = 0, ?string $orderBy = null) : array
-    {
-        $command = Application\Handlers\GetDataCommand::new($filter, $sequenceOffSet, $limit, $orderBy);
+    /**
+     * @param ?Database\Models\JoinOperation[] $joinOperations
+     * @return array
+     */
+    public function getData(
+        ?array $filter = null,
+        ?int $sequenceOffSet = null,
+        ?int $limit = null,
+        ?string $orderBy = null,
+        ?string $search = null,
+        ?array $joinOperations = null
+    ) : array {
+        $joinOperationModels = [];
+        if (is_null($joinOperations) === false) {
+            foreach ($joinOperations as $joinOperation) {
+                $joinOperationModels[] = $joinOperation->toDomain();
+            }
+        }
+
+
+        $command = Application\Handlers\GetDataCommand::new(Domain\Models\Filter::new($filter, $this->outbounds->getConfig()->getJsonSchema()), $sequenceOffSet, $limit, $orderBy, $search, $joinOperationModels);
         return Application\Handlers\GetDataHandler::new($this->outbounds->getDatabaseClient())->handle($command);
     }
 

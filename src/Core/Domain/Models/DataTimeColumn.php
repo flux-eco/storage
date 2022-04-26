@@ -15,10 +15,8 @@ class DataTimeColumn implements Ports\Database\Models\Column
         $this->initWithZeroValues = $initWithZeroValues;
     }
 
-    /**
-     * @param Ports\Database\TableAsserters $tableAsserters
-     */
-    public static function new(string $name, array $tableAsserters = [], bool $initWithZeroValues = false): self
+
+    public static function new(string $name, bool $initWithZeroValues = false): self
     {
         return new self($name, $initWithZeroValues);
     }

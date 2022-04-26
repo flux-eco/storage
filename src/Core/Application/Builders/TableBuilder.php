@@ -13,6 +13,7 @@ class TableBuilder implements Ports\Database\Builders\TableBuilder
     private array $uniqueKey = [];
     private array $columns = [];
     private ColumnFactory $columnFactory;
+    private array $indexes = [];
 
     private function __construct(
         string                        $tableName,
@@ -48,6 +49,12 @@ class TableBuilder implements Ports\Database\Builders\TableBuilder
         return $this;
     }
 
+    final  public function addBlobColumn(string $name, bool $nullable = false): self
+    {
+        $this->columns[$name] = Models\BlobColumn::new($name, $nullable);
+        return $this;
+    }
+
     final public function addIntegerColumn(string $name, bool $nullable = false): self
     {
         $this->columns[$name] = Models\IntegerColumn::new($name, $nullable);
@@ -56,7 +63,7 @@ class TableBuilder implements Ports\Database\Builders\TableBuilder
 
     final public function addDataTimeColumnType(string $name, bool $nullable = false): self
     {
-        $this->columns[$name] = Models\DataTimeColumn::new($name, $nullable);
+        $this->columns[$name] = Models\DataTimeColumn::new($name, !($nullable));
         return $this;
     }
 
@@ -76,13 +83,19 @@ class TableBuilder implements Ports\Database\Builders\TableBuilder
         return $this;
     }
 
+    final public function addIndexes(array $columnNames, string $indexName) {
+        $this->indexes[$indexName] = $columnNames;
+        return $this;
+    }
+
     final public function build(): Ports\Database\Table
     {
         return Table::new(
             $this->tableName,
             $this->columns,
             $this->primaryKey,
-            $this->uniqueKey
+            $this->uniqueKey,
+            $this->indexes
         );
     }
 
