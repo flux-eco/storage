@@ -107,6 +107,7 @@ class Service
         ?int $limit = null,
         ?string $orderBy = null,
         ?string $search = null,
+        ?int $fromSeq = null,
         ?array $joinOperations = null
     ) : array {
         $joinOperationModels = [];
@@ -117,7 +118,7 @@ class Service
         }
 
 
-        $command = Application\Handlers\GetDataCommand::new(Domain\Models\Filter::new($filter, $this->outbounds->getConfig()->getJsonSchema()), $sequenceOffSet, $limit, $orderBy, $search, $joinOperationModels);
+        $command = Application\Handlers\GetDataCommand::new(Domain\Models\Filter::new($filter, $this->outbounds->getConfig()->getJsonSchema()), $sequenceOffSet, $limit, $orderBy, $search, $fromSeq, $joinOperationModels);
         return Application\Handlers\GetDataHandler::new($this->outbounds->getDatabaseClient())->handle($command);
     }
 

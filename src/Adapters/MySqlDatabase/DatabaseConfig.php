@@ -13,6 +13,7 @@ class DatabaseConfig implements Ports\Database\DatabaseConfig
     private string $database;
     private string $password;
     private string $username;
+    private string $plattform;
 
     private function __construct(
         string $hostname,
@@ -26,6 +27,7 @@ class DatabaseConfig implements Ports\Database\DatabaseConfig
         $this->database = $database;
         $this->username = $username;
         $this->password = $password;
+        $this->plattform = 'Mysql';
     }
 
     public static function new(
@@ -69,6 +71,12 @@ class DatabaseConfig implements Ports\Database\DatabaseConfig
     {
         return $this->username;
     }
+
+    public function getPlattform() : string
+    {
+        return $this->plattform;
+    }
+
 
     final public function toArray() : array
     {

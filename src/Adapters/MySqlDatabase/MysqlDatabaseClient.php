@@ -14,6 +14,7 @@ use Laminas\Db\TableGateway\TableGateway;
 use  Laminas\Db\Sql\Predicate;
 use FluxEco\Storage\Adapters\MySqlDatabase\Operations\JoinOperation;
 use Laminas\Db\Sql\Where;
+use Laminas\Db\Adapter\Platform;
 
 class MysqlDatabaseClient implements Ports\Database\DatabaseClient
 {
@@ -66,10 +67,10 @@ class MysqlDatabaseClient implements Ports\Database\DatabaseClient
     {
         $sequenceOffSet = $getDataCommand->getSequenceOffSet();
         $limit = $getDataCommand->getLimit();
-
         $filter = $getDataCommand->getFilter();
         $orderBy = $getDataCommand->getOrderBy();
         $search = $getDataCommand->getSearch();
+        $fromSeq = $getDataCommand->getFromSeq();
         $joinOperations = null;
         if (is_null($getDataCommand->getJoinOperationModels()) === false) {
             foreach ($getDataCommand->getJoinOperationModels() as $joinOperation) {
@@ -83,6 +84,7 @@ class MysqlDatabaseClient implements Ports\Database\DatabaseClient
             $limit,
             $orderBy,
             $search,
+            $fromSeq,
             $joinOperations
         ) {
 
@@ -110,14 +112,24 @@ class MysqlDatabaseClient implements Ports\Database\DatabaseClient
                 });
             };
 
+            if ($fromSeq !== null) {
+                $select->where(function (Where $where) use ($fromSeq) {
+                    $where->greaterThan('autoSeq', $fromSeq);
+                });
+            };
+
             if (is_null($joinOperations) === false) {
                 foreach ($joinOperations as $joinOperation) {
-                    $select->join($joinOperation->getForeignTableName(), $joinOperation->getJoinExpression(), '*',
-                        $joinOperation->getJoinType()->getAdaptedJoinType());
+                    $select->join(
+                        $joinOperation->getForeignTableName(),
+                        $joinOperation->getJoinExpression(),
+                        explode(",",$joinOperation->getForeignFields()),
+                        $joinOperation->getJoinType()->getAdaptedJoinType()
+                    );
                 }
             }
 
-            //echo "Query: ".$select->getSqlString().PHP_EOL;
+            echo PHP_EOL."Query: ".$select->getSqlString($this->dbAdapter->getPlatform()).PHP_EOL;
 
             /**
              * $table = $this->queryFactory->table('users');
@@ -194,6 +206,7 @@ class MysqlDatabaseClient implements Ports\Database\DatabaseClient
         //autoSeq
         $autoSeq = new Column\Integer('autoSeq');
         $autoSeq->setOption('AUTO_INCREMENT', true);
+        $table->addColumn($autoSeq);
         $table->addConstraint(new Constraint\PrimaryKey('autoSeq'));
 
         if ($primaryKey !== null) {
