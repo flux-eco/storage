@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## [1.5.0]
+* feature: passwords in secret files or env variables
+
 ## [1.4.0]
 * feature: join operation
 
