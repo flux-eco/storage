@@ -12,6 +12,7 @@ class GetDataCommand implements Command
     private ?int $limit;
     private ?string $orderBy;
     private ?string $search;
+    private ?int $fromSeq;
     /** @var ?Domain\Models\JoinOperation[] */
     private ?array $joinOperationModels;
 
@@ -21,6 +22,7 @@ class GetDataCommand implements Command
         ?int $limit = null,
         ?string $orderBy = null,
         ?string $search = null,
+        ?int $fromSeq = null,
         ?array $joinOperationModels = null
     ) {
         $this->filter = $filter;
@@ -28,6 +30,7 @@ class GetDataCommand implements Command
         $this->limit = $limit;
         $this->orderBy = $orderBy;
         $this->search = $search;
+        $this->fromSeq = $fromSeq;
         $this->joinOperationModels = $joinOperationModels;
     }
 
@@ -40,9 +43,10 @@ class GetDataCommand implements Command
         ?int $limit = null,
         ?string $orderBy = null,
         ?string $search = null,
+        ?int $fromSeq = null,
         ?array $joinOperationModels = null
     ) : self {
-        return new self($filter, $sequenceOffSet, $limit, $orderBy, $search, $joinOperationModels);
+        return new self($filter, $sequenceOffSet, $limit, $orderBy, $search, $fromSeq, $joinOperationModels);
     }
 
     final public function getFilter() : ?Domain\Models\Filter
@@ -69,6 +73,12 @@ class GetDataCommand implements Command
     {
         return $this->sequenceOffSet;
     }
+
+    public function getFromSeq() : ?int
+    {
+        return $this->fromSeq;
+    }
+
 
     /**
      * @return ?Domain\Models\JoinOperation[]
